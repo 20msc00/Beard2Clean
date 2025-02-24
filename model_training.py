@@ -8,7 +8,7 @@ from torchvision import transforms, utils
 from PIL import Image
 import matplotlib.pyplot as plt
 
-# Ayar ve hyperparametreler
+
 DATASET_DIR = '/content/drive/MyDrive/synthetic_data_training'
 BATCH_SIZE = 2
 NUM_EPOCHS = 750
@@ -22,7 +22,7 @@ os.makedirs(CHECKPOINT_DIR, exist_ok=True)
 DRIVE_CHECKPOINT_DIR = '/content/drive/MyDrive/model_checkpoints'
 os.makedirs(DRIVE_CHECKPOINT_DIR, exist_ok=True)
 
-# Dataset tanımı
+
 class PairedDataset(Dataset):
     def __init__(self, root_dir, transform=None):
         self.beard_dir = os.path.join(root_dir, "bearded")
@@ -58,8 +58,7 @@ transform = transforms.Compose([
     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
 ])
 
-# Burada U-Net ve Discriminator tanımlarınızı ekleyin.
-# Örneğin:
+
 class UNetDown(nn.Module):
     def __init__(self, in_channels, out_channels, normalize=True):
         super(UNetDown, self).__init__()
@@ -219,11 +218,7 @@ def test_model(num_examples=5):
     # Dataset ve DataLoader'ı burada oluşturuyoruz
     dataset = PairedDataset(DATASET_DIR, transform=transform)
     dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=2)
-    
-    # Modelleri yeniden yüklemek yerine global model'i kullanıyoruz
     generator = GeneratorUNet().to(DEVICE)
-    # Burada checkpoint'ten model yükleyebilirsiniz, ya da eğitimden sonra kullanılacak global model'iniz varsa onu kullanın
-    
     generator.eval()
     samples = []
     with torch.no_grad():
