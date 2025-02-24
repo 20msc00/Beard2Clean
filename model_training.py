@@ -8,6 +8,7 @@ from torchvision import transforms, utils
 from PIL import Image
 import matplotlib.pyplot as plt
 
+# Ayar ve hyperparametreler
 DATASET_DIR = '/content/drive/MyDrive/synthetic_data_training'
 BATCH_SIZE = 2
 NUM_EPOCHS = 750
@@ -21,6 +22,7 @@ os.makedirs(CHECKPOINT_DIR, exist_ok=True)
 DRIVE_CHECKPOINT_DIR = '/content/drive/MyDrive/model_checkpoints'
 os.makedirs(DRIVE_CHECKPOINT_DIR, exist_ok=True)
 
+# Dataset tanımı
 class PairedDataset(Dataset):
     def __init__(self, root_dir, transform=None):
         self.beard_dir = os.path.join(root_dir, "bearded")
@@ -56,10 +58,8 @@ transform = transforms.Compose([
     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
 ])
 
-dataset = PairedDataset(DATASET_DIR, transform=transform)
-dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=2)
-
-
+# Burada U-Net ve Discriminator tanımlarınızı ekleyin.
+# Örneğin:
 class UNetDown(nn.Module):
     def __init__(self, in_channels, out_channels, normalize=True):
         super(UNetDown, self).__init__()
@@ -142,13 +142,6 @@ class Discriminator(nn.Module):
         x = torch.cat((img_A, img_B), 1)
         return self.model(x)
 
-generator = GeneratorUNet().to(DEVICE)
-discriminator = Discriminator().to(DEVICE)
-criterion_GAN = nn.MSELoss()
-criterion_L1 = nn.L1Loss()
-optimizer_G = optim.Adam(generator.parameters(), lr=LEARNING_RATE, betas=(0.5, 0.999))
-optimizer_D = optim.Adam(discriminator.parameters(), lr=LEARNING_RATE, betas=(0.5, 0.999))
-
 def real_labels(size):
     return torch.ones(size, device=DEVICE)
 
@@ -169,6 +162,17 @@ def save_sample(generator, sample_data, epoch, batch_idx):
     generator.train()
 
 def train_model():
+    # Dataset ve DataLoader'ı burada oluşturuyoruz
+    dataset = PairedDataset(DATASET_DIR, transform=transform)
+    dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=2)
+    
+    generator = GeneratorUNet().to(DEVICE)
+    discriminator = Discriminator().to(DEVICE)
+    criterion_GAN = nn.MSELoss()
+    criterion_L1 = nn.L1Loss()
+    optimizer_G = optim.Adam(generator.parameters(), lr=LEARNING_RATE, betas=(0.5, 0.999))
+    optimizer_D = optim.Adam(discriminator.parameters(), lr=LEARNING_RATE, betas=(0.5, 0.999))
+    
     print("Starting Training ...")
     start_time = time.time()
     for epoch in range(1, NUM_EPOCHS + 1):
@@ -184,6 +188,7 @@ def train_model():
             loss_D = (loss_D_real + loss_D_fake) * 0.5
             loss_D.backward()
             optimizer_D.step()
+            
             optimizer_G.zero_grad()
             pred_fake = discriminator(beard, fake_clean)
             loss_G_GAN = criterion_GAN(pred_fake, real_labels(pred_fake.shape))
@@ -191,6 +196,7 @@ def train_model():
             loss_G = loss_G_GAN + L1_LAMBDA * loss_G_L1
             loss_G.backward()
             optimizer_G.step()
+            
             if batch_idx % 10 == 0:
                 print(f"Epoch [{epoch}/{NUM_EPOCHS}] Batch [{batch_idx}/{len(dataloader)}] "
                       f"Loss D: {loss_D.item():.4f} Loss G: {loss_G.item():.4f}")
@@ -210,6 +216,14 @@ def train_model():
     print("Final checkpoint saved to", final_checkpoint_path)
 
 def test_model(num_examples=5):
+    # Dataset ve DataLoader'ı burada oluşturuyoruz
+    dataset = PairedDataset(DATASET_DIR, transform=transform)
+    dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=2)
+    
+    # Modelleri yeniden yüklemek yerine global model'i kullanıyoruz
+    generator = GeneratorUNet().to(DEVICE)
+    # Burada checkpoint'ten model yükleyebilirsiniz, ya da eğitimden sonra kullanılacak global model'iniz varsa onu kullanın
+    
     generator.eval()
     samples = []
     with torch.no_grad():
