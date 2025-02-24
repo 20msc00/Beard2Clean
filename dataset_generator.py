@@ -49,7 +49,7 @@ class PairedFaceDatasetGenerator:
         negative_prompt = ("any facial hair, beard, mustache, stubble, shadow, goatee, patchy hair, "
                            "different face, different hair, changed features, multiple faces, multiple people, "
                            "blurry, distorted, cartoon, female, child, long hair, occlusions, sunglasses, masks, "
-                           "makeup, accessories, vintage, black and white.")
+                           "makeup, accessories, vintage, hat, black and white.")
         with autocast(self.device):
             image = self.txt2img_pipe(
                 prompt=prompt,
@@ -73,7 +73,7 @@ class PairedFaceDatasetGenerator:
                            "gaps in beard, different face, different hair, changed features, "
                            "multiple people, multiple faces, cropped forehead, blurry, "
                            "distorted, cartoon, female, child, occlusions, sunglasses, "
-                           "masks, makeup, accessories, vintage, black and white.")
+                           "masks, makeup, accessories, hat, vintage, black and white.")
         with autocast(self.device):
             image = self.img2img_pipe(
                 prompt=prompt,
