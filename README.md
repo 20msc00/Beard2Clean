@@ -26,14 +26,31 @@ If you prefer to run the project locally (e.g., using VS Code or Jupyter Noteboo
    git clone https://github.com/<your_username>/Beard2Clean.git
    cd Beard2Clean
 
-2. **Install Dependencies::**
-   ```bash
-   pip install -r requirements.txt
+2. **Install Dependencies:**
+
+   You have two options to set up the environment:
+
+   - **Using pip:**
+
+     Install all required Python packages with:
+
+     ```bash
+     pip install -r requirements.txt
+     ```
+
+   - **Using Conda:**
+
+     If you prefer using Conda for environment management, create a new environment using the provided `environment.yml` file:
+
+     ```bash
+     conda env create -f environment.yml
+     conda activate Beard2Clean
+     ```
 
 3. **Open the Notebook::**
    You can launch Jupyter Notebook or JupyterLab:
    ```bash
-   jupyter notebook main_notebook.ipynb
+   jupyter notebook Beard2Clean.ipynb
 
 If you use VS Code, simply open the repository folder in VS Code and open main_notebook.ipynb.
    
