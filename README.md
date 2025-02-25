@@ -8,6 +8,8 @@ Using Stable Diffusion, the system generates paired images with a consistent fac
 Image-to-Image Model Training:
 A lightweight image-to-image model (based on a U-Net architecture) is trained to transform bearded images into clean-shaven ones. The model is optimized for limited computational resources, and its performance is evaluated using SSIM, PSNR, and LPIPS metrics to ensure both structural fidelity and perceptual quality.
 
+For further explanations on model evaluation, encountered challenges, and future improvements, please refer to the corresponding sections in the Google Colab Notebook.
+
 ## Run on Google Colab
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/YOUR_NOTEBOOK_LINK)
