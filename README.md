@@ -48,9 +48,8 @@ If you prefer to run the project locally (e.g., using VS Code or Jupyter Noteboo
      ```
 
 3. **Open the Notebook::**
-   You can launch Jupyter Notebook or JupyterLab:
+   
+   You can download the Beard2Clean.ipynb notebook using the Google Colab link above, place it in the repository folder, and then run the following command to launch it locally:
+
    ```bash
    jupyter notebook Beard2Clean.ipynb
-
-If you use VS Code, simply open the repository folder in VS Code and open main_notebook.ipynb.
-   
