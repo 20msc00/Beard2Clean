@@ -161,7 +161,6 @@ def save_sample(generator, sample_data, epoch, batch_idx):
     generator.train()
 
 def train_model():
-    # Dataset ve DataLoader'ı burada oluşturuyoruz
     dataset = PairedDataset(DATASET_DIR, transform=transform)
     dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=2)
     
@@ -215,7 +214,6 @@ def train_model():
     print("Final checkpoint saved to", final_checkpoint_path)
 
 def test_model(num_examples=5):
-    # Dataset ve DataLoader'ı burada oluşturuyoruz
     dataset = PairedDataset(DATASET_DIR, transform=transform)
     dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=2)
     generator = GeneratorUNet().to(DEVICE)
