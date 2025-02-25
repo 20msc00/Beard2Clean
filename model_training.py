@@ -212,31 +212,3 @@ def train_model():
     final_checkpoint_path = os.path.join(DRIVE_CHECKPOINT_DIR, "final_checkpoint.pth")
     torch.save(final_checkpoint, final_checkpoint_path)
     print("Final checkpoint saved to", final_checkpoint_path)
-
-def test_model(num_examples=5):
-    dataset = PairedDataset(DATASET_DIR, transform=transform)
-    dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=2)
-    generator = GeneratorUNet().to(DEVICE)
-    generator.eval()
-    samples = []
-    with torch.no_grad():
-        for idx in range(min(num_examples, len(dataset))):
-            sample = dataset[idx]
-            beard = sample["beard"].unsqueeze(0).to(DEVICE)
-            fake_clean = generator(beard)
-            def denorm(x):
-                return (x + 1) / 2
-            beard_img = denorm(beard.squeeze(0).cpu())
-            fake_img = denorm(fake_clean.squeeze(0).cpu())
-            real_img = denorm(sample["clean"])
-            comparison = torch.cat([beard_img, fake_img, real_img], dim=2)
-            samples.append(comparison)
-    fig, axes = plt.subplots(len(samples), 1, figsize=(12, 4 * len(samples)))
-    if len(samples) == 1:
-        axes = [axes]
-    for ax, img in zip(axes, samples):
-        ax.imshow(img.permute(1, 2, 0))
-        ax.axis("off")
-    plt.tight_layout()
-    plt.show()
-    generator.train()
