@@ -12,7 +12,7 @@ For further explanations on model evaluation, encountered challenges, and future
 
 ## Run on Google Colab
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/YOUR_NOTEBOOK_LINK)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/https://colab.research.google.com/drive/1Fg2Y9crEt025oFEJmai923WUO49pq0WR?usp=sharing)
 
 ## Setup and Installation (Local)
 
